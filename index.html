@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard · Tarjetas &amp; Recargas</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg:          #f5f7fa;
+  --surface:     #ffffff;
+  --border:      #e4e8f0;
+  --txt-1:       #0f1b2d;
+  --txt-2:       #5a6880;
+  --accent-blue: #1a6cf6;
+  --accent-teal: #00b8a9;
+  --accent-gold: #f5a623;
+  --accent-red:  #e8445a;
+  --accent-pur:  #7c3aed;
+  --accent-oran: #f97316;
+  --shadow-sm:   0 2px 8px rgba(15,27,45,.07);
+  --shadow-md:   0 8px 32px rgba(15,27,45,.11);
+  --radius:      16px;
+  --font-head:   'Sora', sans-serif;
+  --font-body:   'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--txt-1); min-height: 100vh; }
+
+/* ── TOPBAR ─────────────────────────────────── */
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+.topbar-brand { display: flex; align-items: center; gap: 12px; }
+.topbar-logo {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-teal));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.topbar-logo svg { width: 22px; height: 22px; fill: #fff; }
+.topbar-title { font-family: var(--font-head); font-weight: 800; font-size: 1.15rem; letter-spacing: -.02em; }
+.topbar-title span { color: var(--accent-blue); }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.last-update { font-size: .78rem; color: var(--txt-2); font-weight: 500; }
+.last-update strong { color: var(--txt-1); }
+
+.btn-refresh {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--accent-blue), #0f4fd6);
+  color: #fff; border: none; border-radius: 10px;
+  padding: 9px 20px;
+  font-family: var(--font-body); font-size: .88rem; font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26,108,246,.35);
+  transition: transform .15s, box-shadow .15s, opacity .2s;
+  white-space: nowrap;
+}
+.btn-refresh:hover  { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(26,108,246,.4); }
+.btn-refresh:active { transform: translateY(0); }
+.btn-refresh.loading { opacity: .75; pointer-events: none; }
+.btn-refresh svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.btn-refresh.loading svg { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── MAIN ───────────────────────────────────── */
+.main { max-width: 1280px; margin: 0 auto; padding: 32px 24px 48px; }
+
+.page-header { margin-bottom: 28px; }
+.page-header h1 { font-family: var(--font-head); font-size: 1.75rem; font-weight: 800; letter-spacing: -.03em; }
+.page-header p  { color: var(--txt-2); font-size: .92rem; margin-top: 4px; }
+
+/* ── STATUS BANNER ──────────────────────────── */
+#statusBanner {
+  display: none; align-items: center; gap: 10px;
+  padding: 12px 18px; border-radius: 12px;
+  font-size: .88rem; font-weight: 500;
+  margin-bottom: 24px; animation: fadeIn .3s ease;
+}
+#statusBanner.info    { background: #e8f0fe; color: #1a56cb; border: 1px solid #c3d6fc; }
+#statusBanner.success { background: #e6faf6; color: #0a8a72; border: 1px solid #a0dfd4; }
+#statusBanner.error   { background: #fdecea; color: #c0392b; border: 1px solid #f5c6c2; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+
+/* ── KPI GRID ───────────────────────────────── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px; margin-bottom: 28px;
+}
+.kpi-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex; align-items: center; gap: 16px;
+  transition: box-shadow .2s, transform .2s;
+  animation: slideUp .5s ease both;
+}
+.kpi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.kpi-card:nth-child(1){animation-delay:.05s}
+.kpi-card:nth-child(2){animation-delay:.10s}
+.kpi-card:nth-child(3){animation-delay:.15s}
+.kpi-card:nth-child(4){animation-delay:.20s}
+@keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:none; } }
+
+.kpi-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.kpi-icon svg { width: 26px; height: 26px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.kpi-icon.blue  { background: #e8f0fe; } .kpi-icon.blue  svg { stroke: var(--accent-blue); }
+.kpi-icon.teal  { background: #e0faf7; } .kpi-icon.teal  svg { stroke: var(--accent-teal); }
+.kpi-icon.gold  { background: #fef6e4; } .kpi-icon.gold  svg { stroke: var(--accent-gold); }
+.kpi-icon.pur   { background: #f0ebff; } .kpi-icon.pur   svg { stroke: var(--accent-pur); }
+
+.kpi-info { flex: 1; min-width: 0; }
+.kpi-label { font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--txt-2); margin-bottom: 4px; }
+.kpi-value { font-family: var(--font-head); font-size: 1.9rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.kpi-value.money { font-size: 1.5rem; }
+.kpi-badge { margin-top: 6px; display: inline-block; font-size: .72rem; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+.kpi-badge.blue { background: #e8f0fe; color: var(--accent-blue); }
+.kpi-badge.teal { background: #e0faf7; color: var(--accent-teal); }
+.kpi-badge.gold { background: #fef6e4; color: var(--accent-gold); }
+.kpi-badge.pur  { background: #f0ebff; color: var(--accent-pur); }
+
+/* ── CHART PANELS ───────────────────────────── */
+.charts-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 20px;
+}
+.charts-grid-1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; margin-bottom: 20px;
+}
+@media (max-width: 900px) {
+  .charts-grid-2, .charts-grid-1 { grid-template-columns: 1fr; }
+}
+
+.chart-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 26px;
+  box-shadow: var(--shadow-sm);
+  animation: slideUp .5s ease .28s both;
+}
+.chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+.chart-header-left { display: flex; align-items: center; gap: 12px; }
+.chart-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.chart-dot.blue  { background: var(--accent-blue); }
+.chart-dot.teal  { background: var(--accent-teal); }
+.chart-dot.oran  { background: var(--accent-oran); }
+.chart-dot.pur   { background: var(--accent-pur); }
+.chart-title    { font-family: var(--font-head); font-size: .98rem; font-weight: 700; }
+.chart-subtitle { font-size: .76rem; color: var(--txt-2); margin-top: 2px; }
+.chart-wrap     { position: relative; height: 230px; }
+.chart-wrap.tall { height: 270px; }
+
+.footer { text-align: center; margin-top: 36px; font-size: .76rem; color: #b0bac8; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<nav class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">
+      <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+    </div>
+    <span class="topbar-title">Card<span>Flow</span> Analytics</span>
+  </div>
+  <div class="topbar-right">
+    <span class="last-update" id="lastUpdate">—</span>
+    <button class="btn-refresh" id="btnRefresh" onclick="refreshAll()">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Actualizar Datos
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="page-header">
+    <h1>Panel de Control · Tarjetas &amp; Recargas</h1>
+    <p>Resumen ejecutivo en tiempo real desde Google Sheets</p>
+  </div>
+
+  <div id="statusBanner"></div>
+
+  <!-- KPIs -->
+  <section class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-icon blue">
+        <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <div class="kpi-info">
+        <div class="kpi-label">Tarjetas Entregadas</div>
+        <div class="kpi-value" id="kpiCards">—</div>
+        <span class="kpi-badge blue">Únicas · Venta</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon teal">
+        <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      </div>
+      <div class="kpi-info">
+        <div class="kpi-label">TRX Recargas</div>
+        <div class="kpi-value" id="kpiTrx">—</div>
+        <span class="kpi-badge teal">Total transacciones</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon gold">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="kpi-info">
+        <div class="kpi-label">Monto Total Recargas</div>
+        <div class="kpi-value money" id="kpiMonto">—</div>
+        <span class="kpi-badge gold">Suma · Campo J</span>
+      </div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-icon pur">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      </div>
+      <div class="kpi-info">
+        <div class="kpi-label">Moda · Monto Recarga</div>
+        <div class="kpi-value money" id="kpiModa">—</div>
+        <span class="kpi-badge pur" id="kpiModaBadge">Valor más frecuente</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fila 1: Tarjetas por día + Recargas por día -->
+  <section class="charts-grid-2">
+    <div class="chart-panel">
+      <div class="chart-header">
+        <div class="chart-header-left">
+          <div class="chart-dot blue"></div>
+          <div>
+            <div class="chart-title">Colocación de Tarjetas por Día</div>
+            <div class="chart-subtitle">Tarjetas únicas entregadas — Venta</div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="chartCards"></canvas></div>
+    </div>
+
+    <div class="chart-panel">
+      <div class="chart-header">
+        <div class="chart-header-left">
+          <div class="chart-dot teal"></div>
+          <div>
+            <div class="chart-title">Recargas por Día</div>
+            <div class="chart-subtitle">Monto total recargado — Recarga</div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap"><canvas id="chartRecargas"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Fila 2: Top 10 Ubicaciones + Recargas por Hora -->
+  <section class="charts-grid-1">
+    <div class="chart-panel">
+      <div class="chart-header">
+        <div class="chart-header-left">
+          <div class="chart-dot oran"></div>
+          <div>
+            <div class="chart-title">Top 10 Ubicaciones de Recarga</div>
+            <div class="chart-subtitle">Número de transacciones por punto — Recarga</div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap tall"><canvas id="chartUbicaciones"></canvas></div>
+    </div>
+
+    <div class="chart-panel">
+      <div class="chart-header">
+        <div class="chart-header-left">
+          <div class="chart-dot pur"></div>
+          <div>
+            <div class="chart-title">Comportamiento de Recargas por Hora</div>
+            <div class="chart-subtitle">Cantidad de transacciones según hora del día — Recarga</div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-wrap tall"><canvas id="chartHoras"></canvas></div>
+    </div>
+  </section>
+
+  <div class="footer">CardFlow Analytics · Powered by Google Sheets API &amp; Chart.js</div>
+</main>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   ▶  CONFIGURACIÓN — EDITAR SOLO ESTA LÍNEA
+══════════════════════════════════════════════════════════ */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHxJuKgfAbecry80UJjXR3Iwj9gh6r1j0O5Kli2MkzlFK2ET8C7D1uNeYHPIFGLAWMsA/exec";
+
+/* ══════════════════════════════════════════════════════════
+   ESTADO GLOBAL
+══════════════════════════════════════════════════════════ */
+let chartCards = null, chartRecargas = null,
+    chartUbi   = null, chartHoras    = null;
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════ */
+document.addEventListener("DOMContentLoaded", () => { initCharts(); loadData(); });
+
+/* ══════════════════════════════════════════════════════════
+   REFRESH COMPLETO
+══════════════════════════════════════════════════════════ */
+async function refreshAll() {
+  const btn = document.getElementById("btnRefresh");
+  btn.classList.add("loading");
+  showBanner("info", "⏳ Actualizando columnas AÑO / MES / DÍA / HORA CALCULO en Google Sheets…");
+  try {
+    const r = await apiFetch("updateSheet");
+    if (r.success) showBanner("info", "✅ Columnas actualizadas. Cargando métricas…");
+    await loadData();
+    showBanner("success", "🎉 Datos actualizados correctamente.");
+  } catch (err) {
+    showBanner("error", "❌ Error al actualizar: " + err.message);
+  } finally {
+    btn.classList.remove("loading");
+  }
+}
+
+/* ══════════════════════════════════════════════════════════
+   CARGAR DATOS
+══════════════════════════════════════════════════════════ */
+async function loadData() {
+  try {
+    const data = await apiFetch("getData");
+    renderKPIs(data);
+    renderCharts(data);
+    updateTimestamp(data.lastUpdated);
+  } catch (err) {
+    showBanner("error", "❌ No se pudo cargar la información: " + err.message);
+  }
+}
+
+async function apiFetch(action) {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("TU_URL"))
+    throw new Error("Configura APPS_SCRIPT_URL en el archivo index.html.");
+  const resp = await fetch(`${APPS_SCRIPT_URL}?action=${action}&t=${Date.now()}`);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER KPIs
+══════════════════════════════════════════════════════════ */
+function renderKPIs(d) {
+  animateNumber("kpiCards", d?.tarjetasEntregadas ?? 0);
+  animateNumber("kpiTrx",   d?.trxRecarga         ?? 0);
+  animateNumber("kpiMonto", d?.montoTotalRecargas  ?? 0, true);
+  animateNumber("kpiModa",  d?.modaMonto           ?? 0, true);
+  const badge = document.getElementById("kpiModaBadge");
+  if (badge && d?.modaFrecuencia > 0)
+    badge.textContent = `Repite ${d.modaFrecuencia} veces`;
+}
+
+function animateNumber(id, target, isMoney = false) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const dur = 900, t0 = performance.now();
+  function step(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const v = Math.round((1 - Math.pow(1-p, 3)) * target);
+    el.textContent = isMoney
+      ? "$" + v.toLocaleString("es-EC", { minimumFractionDigits: 2 })
+      : v.toLocaleString("es-EC");
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* ══════════════════════════════════════════════════════════
+   INIT CHARTS
+══════════════════════════════════════════════════════════ */
+function baseOpts(tooltipCb) {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "#0f1b2d",
+        titleFont: { family: "'DM Sans',sans-serif", size: 12, weight: "600" },
+        bodyFont:  { family: "'DM Sans',sans-serif", size: 13 },
+        padding: 10, cornerRadius: 8,
+        callbacks: tooltipCb || {}
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { family: "'DM Sans',sans-serif", size: 11 }, color: "#8a96a8", maxRotation: 40 } },
+      y: { grid: { color: "#f0f2f6" }, ticks: { font: { family: "'DM Sans',sans-serif", size: 11 }, color: "#8a96a8" }, beginAtZero: true }
+    }
+  };
+}
+
+function initCharts() {
+  // Línea: Tarjetas por día
+  chartCards = new Chart(document.getElementById("chartCards"), {
+    type: "line",
+    data: { labels: [], datasets: [{ data: [], fill: true,
+      borderColor: "#1a6cf6", backgroundColor: "rgba(26,108,246,.08)",
+      tension: 0.4, pointRadius: 4, pointBackgroundColor: "#1a6cf6",
+      pointBorderColor: "#fff", pointBorderWidth: 2 }] },
+    options: baseOpts()
+  });
+
+  // Línea: Recargas por día
+  chartRecargas = new Chart(document.getElementById("chartRecargas"), {
+    type: "line",
+    data: { labels: [], datasets: [{ data: [], fill: true,
+      borderColor: "#00b8a9", backgroundColor: "rgba(0,184,169,.08)",
+      tension: 0.4, pointRadius: 4, pointBackgroundColor: "#00b8a9",
+      pointBorderColor: "#fff", pointBorderWidth: 2 }] },
+    options: baseOpts({ label: ctx => " $" + Number(ctx.raw).toLocaleString("es-EC", { minimumFractionDigits: 2 }) })
+  });
+
+  // Barras horizontales: Top 10 Ubicaciones
+  chartUbi = new Chart(document.getElementById("chartUbicaciones"), {
+    type: "bar",
+    data: { labels: [], datasets: [{ data: [],
+      backgroundColor: "rgba(249,115,22,.80)",
+      borderColor: "#f97316", borderWidth: 0,
+      borderRadius: 6, borderSkipped: false }] },
+    options: {
+      ...baseOpts({ label: ctx => ` ${ctx.raw} recargas` }),
+      indexAxis: "y",
+      scales: {
+        x: { grid: { color: "#f0f2f6" }, ticks: { font: { family: "'DM Sans',sans-serif", size: 11 }, color: "#8a96a8" }, beginAtZero: true },
+        y: { grid: { display: false }, ticks: { font: { family: "'DM Sans',sans-serif", size: 11 }, color: "#5a6880" } }
+      }
+    }
+  });
+
+  // Línea: Recargas por hora
+  chartHoras = new Chart(document.getElementById("chartHoras"), {
+    type: "line",
+    data: { labels: [], datasets: [{ data: [], fill: true,
+      borderColor: "#7c3aed", backgroundColor: "rgba(124,58,237,.08)",
+      tension: 0.4, pointRadius: 4, pointBackgroundColor: "#7c3aed",
+      pointBorderColor: "#fff", pointBorderWidth: 2 }] },
+    options: baseOpts({ label: ctx => ` ${ctx.raw} recargas` })
+  });
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER CHARTS
+══════════════════════════════════════════════════════════ */
+function renderCharts(d) {
+  if (!d) return;
+
+  // Tarjetas por día
+  chartCards.data.labels            = (d.cardsByDay||[]).map(r => fmtDate(r.date));
+  chartCards.data.datasets[0].data  = (d.cardsByDay||[]).map(r => r.count);
+  chartCards.update("active");
+
+  // Recargas por día
+  chartRecargas.data.labels           = (d.recargasByDay||[]).map(r => fmtDate(r.date));
+  chartRecargas.data.datasets[0].data = (d.recargasByDay||[]).map(r => r.total);
+  chartRecargas.update("active");
+
+  // Top 10 ubicaciones (barras horizontales — etiquetas cortas)
+  const top = d.top10Ubicaciones || [];
+  chartUbi.data.labels           = top.map(r => truncate(r.ubicacion, 28));
+  chartUbi.data.datasets[0].data = top.map(r => r.count);
+  chartUbi.update("active");
+
+  // Recargas por hora
+  const hrs = d.recargasPorHora || [];
+  chartHoras.data.labels           = hrs.map(r => r.hora + ":00");
+  chartHoras.data.datasets[0].data = hrs.map(r => r.count);
+  chartHoras.update("active");
+}
+
+/* ══════════════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════════════ */
+function fmtDate(iso) {
+  if (!iso) return "";
+  const [, m, d] = iso.split("-");
+  return `${d}/${m}`;
+}
+function truncate(str, max) {
+  return str.length > max ? str.slice(0, max - 1) + "…" : str;
+}
+function updateTimestamp(iso) {
+  const el = document.getElementById("lastUpdate");
+  if (!iso || !el) return;
+  const d = new Date(iso);
+  el.innerHTML = `Actualizado: <strong>${d.toLocaleString("es-EC", {
+    day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit"
+  })}</strong>`;
+}
+function showBanner(type, msg) {
+  const b = document.getElementById("statusBanner");
+  b.className = type; b.style.display = "flex"; b.textContent = msg;
+  if (type === "success") setTimeout(() => { b.style.display = "none"; }, 5000);
+}
+</script>
+</body>
+</html>
