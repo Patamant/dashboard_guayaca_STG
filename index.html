@@ -190,7 +190,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--txt-1)
 <main class="main">
   <div class="page-header">
     <h1>Panel de Control · Tarjetas &amp; Recargas</h1>
-    <p>Resumen ejecutivo en tiempo real desde Google Sheets</p>
+    <p>Resumen ejecutivo STG</p>
   </div>
 
   <div id="statusBanner"></div>
@@ -300,7 +300,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--txt-1)
     </div>
   </section>
 
-  <div class="footer">CardFlow Analytics · Powered by Google Sheets API &amp; Chart.js</div>
+  <div class="footer">CardFlow Analytics · Powered by STG</div>
 </main>
 
 <script>
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", () => { initCharts(); loadData(); 
 async function refreshAll() {
   const btn = document.getElementById("btnRefresh");
   btn.classList.add("loading");
-  showBanner("info", "⏳ Actualizando columnas AÑO / MES / DÍA / HORA CALCULO en Google Sheets…");
+  showBanner("info", "⏳ Actualizando Data");
   try {
     const r = await apiFetch("updateSheet");
     if (r.success) showBanner("info", "✅ Columnas actualizadas. Cargando métricas…");
