@@ -21,54 +21,56 @@
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);min-height:100vh}
 
 /* ── TOPBAR ─── */
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:auto;min-height:64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:10px;padding-bottom:10px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm)}
 .brand{display:flex;align-items:center;gap:12px}
-.brand-logo{width:38px;height:38px;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:10px;display:flex;align-items:center;justify-content:center}
-.brand-logo svg{width:22px;height:22px;fill:#fff}
-.brand-name{font-family:'Sora',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-.02em}
+.brand-logo{width:36px;height:36px;flex-shrink:0;background:linear-gradient(135deg,var(--blue),var(--teal));border-radius:10px;display:flex;align-items:center;justify-content:center}
+.brand-logo svg{width:20px;height:20px;fill:#fff}
+.brand-name{font-family:'Sora',sans-serif;font-weight:800;font-size:1rem;letter-spacing:-.02em}
 .brand-name span{color:var(--blue)}
-.topbar-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.last-upd{font-size:.76rem;color:var(--txt-2)}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.last-upd{font-size:.74rem;color:var(--txt-2)}
 .last-upd strong{color:var(--txt-1)}
-.btn-refresh{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--blue),#0f4fd6);color:#fff;border:none;border-radius:10px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(26,108,246,.35);transition:transform .15s,box-shadow .15s,opacity .2s;white-space:nowrap}
+.btn-refresh{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--blue),#0f4fd6);color:#fff;border:none;border-radius:10px;padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(26,108,246,.35);transition:transform .15s,box-shadow .15s,opacity .2s;white-space:nowrap}
 .btn-refresh:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(26,108,246,.4)}
+.btn-refresh:active{transform:translateY(0)}
 .btn-refresh.loading{opacity:.7;pointer-events:none}
-.btn-refresh svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.btn-refresh svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .btn-refresh.loading svg{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── TABS ─── */
-.tabs-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 28px;display:flex;gap:4px;position:sticky;top:64px;z-index:99}
-.tab-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 20px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;color:var(--txt-2);cursor:pointer;border-bottom:3px solid transparent;transition:color .2s,border-color .2s;margin-bottom:-1px;white-space:nowrap}
-.tab-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tabs-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;display:flex;gap:2px;position:sticky;top:64px;z-index:99;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{display:inline-flex;align-items:center;gap:7px;padding:12px 16px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:600;color:var(--txt-2);cursor:pointer;border-bottom:3px solid transparent;transition:color .2s,border-color .2s;margin-bottom:-1px;white-space:nowrap;flex-shrink:0}
+.tab-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .tab-btn:hover{color:var(--txt-1)}
 .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
 
 /* ── MAIN ─── */
-.main{max-width:1280px;margin:0 auto;padding:28px 24px 48px}
+.main{max-width:1280px;margin:0 auto;padding:20px 16px 48px}
 .tab-section{display:none}
 .tab-section.active{display:block}
 
 /* ── SECTION HEADER ─── */
-.sec-header{margin-bottom:24px}
-.sec-header h2{font-family:'Sora',sans-serif;font-size:1.55rem;font-weight:800;letter-spacing:-.03em}
-.sec-header p{color:var(--txt-2);font-size:.88rem;margin-top:4px}
+.sec-header{margin-bottom:20px}
+.sec-header h2{font-family:'Sora',sans-serif;font-size:1.35rem;font-weight:800;letter-spacing:-.03em}
+.sec-header p{color:var(--txt-2);font-size:.84rem;margin-top:4px}
 
 /* ── STATUS BANNER ─── */
-#statusBanner{display:none;align-items:center;gap:10px;padding:12px 18px;border-radius:12px;font-size:.87rem;font-weight:500;margin-bottom:22px;animation:fadeIn .3s ease}
+#statusBanner{display:none;align-items:center;gap:10px;padding:12px 16px;border-radius:12px;font-size:.84rem;font-weight:500;margin-bottom:20px;animation:fadeIn .3s ease}
 #statusBanner.info{background:#e8f0fe;color:#1a56cb;border:1px solid #c3d6fc}
 #statusBanner.success{background:#e6faf6;color:#0a8a72;border:1px solid #a0dfd4}
 #statusBanner.error{background:#fdecea;color:#c0392b;border:1px solid #f5c6c2}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 
 /* ── KPI GRID ─── */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-bottom:24px}
-.kpi-grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:15px;transition:box-shadow .2s,transform .2s;animation:slideUp .45s ease both}
-.kpi-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.kpi-grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s;animation:slideUp .45s ease both}
+.kpi-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.kpi-icon{width:50px;height:50px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.kpi-icon svg{width:25px;height:25px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.kpi-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.kpi-icon svg{width:23px;height:23px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .kpi-icon.blue{background:#e8f0fe}.kpi-icon.blue svg{stroke:var(--blue)}
 .kpi-icon.teal{background:#e0faf7}.kpi-icon.teal svg{stroke:var(--teal)}
 .kpi-icon.gold{background:#fef6e4}.kpi-icon.gold svg{stroke:var(--gold)}
@@ -78,10 +80,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
 .kpi-icon.green{background:#d1fae5}.kpi-icon.green svg{stroke:var(--green)}
 .kpi-icon.pink{background:#fce7f3}.kpi-icon.pink svg{stroke:var(--pink)}
 .kpi-info{flex:1;min-width:0}
-.kpi-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-2);margin-bottom:3px}
-.kpi-value{font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-.03em;line-height:1}
-.kpi-value.md{font-size:1.45rem}.kpi-value.sm{font-size:1.2rem}
-.kpi-badge{margin-top:5px;display:inline-block;font-size:.7rem;font-weight:600;padding:2px 8px;border-radius:20px}
+.kpi-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-2);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-value{font-family:'Sora',sans-serif;font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+.kpi-value.md{font-size:1.35rem}.kpi-value.sm{font-size:1.1rem}
+.kpi-badge{margin-top:5px;display:inline-block;font-size:.67rem;font-weight:600;padding:2px 7px;border-radius:20px}
 .kpi-badge.blue{background:#e8f0fe;color:var(--blue)}
 .kpi-badge.teal{background:#e0faf7;color:var(--teal)}
 .kpi-badge.gold{background:#fef6e4;color:var(--gold)}
@@ -90,36 +92,90 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
 .kpi-badge.pink{background:#fce7f3;color:var(--pink)}
 .kpi-badge.red{background:#ffe4ea;color:var(--red)}
 
-/* ── SPLIT KPI (2 valores en 1 card) ─── */
-.kpi-split{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow-sm);animation:slideUp .45s ease both}
-.kpi-split-title{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-2);margin-bottom:14px}
-.kpi-split-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.kpi-split-item{text-align:center;padding:12px;border-radius:10px}
+/* ── SPLIT KPI ─── */
+.kpi-split{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm);animation:slideUp .45s ease both}
+.kpi-split-title{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--txt-2);margin-bottom:12px}
+.kpi-split-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi-split-item{text-align:center;padding:10px 8px;border-radius:10px}
 .kpi-split-item.enroll{background:#e8f0fe}
 .kpi-split-item.otras{background:#fef6e4}
-.kpi-split-val{font-family:'Sora',sans-serif;font-size:1.5rem;font-weight:800}
+.kpi-split-val{font-family:'Sora',sans-serif;font-size:1.35rem;font-weight:800}
 .kpi-split-item.enroll .kpi-split-val{color:var(--blue)}
 .kpi-split-item.otras .kpi-split-val{color:var(--gold)}
-.kpi-split-lbl{font-size:.7rem;font-weight:600;color:var(--txt-2);margin-top:3px}
+.kpi-split-lbl{font-size:.67rem;font-weight:600;color:var(--txt-2);margin-top:3px}
+
+/* ── PROB BUCKETS (Rango Promedio) ─── */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;margin-top:10px}
+.prob-bucket{border-radius:8px;padding:8px;text-align:center}
+.prob-val{font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;line-height:1}
+.prob-lbl{font-size:.62rem;font-weight:600;color:var(--txt-2);margin-top:2px;white-space:nowrap}
+.prob-pct{font-size:.68rem;font-weight:700;margin-top:1px}
 
 /* ── CHART PANELS ─── */
-.cg2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
-.cg1{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:18px}
-@media(max-width:900px){.cg2{grid-template-columns:1fr}}
-.chart-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;box-shadow:var(--shadow-sm);animation:slideUp .5s ease .2s both}
-.ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px}
-.chl{display:flex;align-items:center;gap:11px}
+.cg2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.cg1{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px}
+.chart-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:var(--shadow-sm);animation:slideUp .5s ease .2s both}
+.ch{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:8px;flex-wrap:wrap}
+.chl{display:flex;align-items:center;gap:10px}
 .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.ct{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:700}
-.cs{font-size:.74rem;color:var(--txt-2);margin-top:2px}
-.cw{position:relative;height:220px}
-.cw.tall{height:260px}
-.cw.xtall{height:300px}
+.ct{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700}
+.cs{font-size:.72rem;color:var(--txt-2);margin-top:2px}
+.cw{position:relative;height:210px}
+.cw.tall{height:250px}
+.cw.xtall{height:290px}
 
 /* ── DIVIDER ─── */
-.sec-divider{border:none;border-top:1px solid var(--border);margin:28px 0}
+.sec-divider{border:none;border-top:1px solid var(--border);margin:24px 0}
+.footer{text-align:center;margin-top:32px;font-size:.74rem;color:#b0bac8}
 
-.footer{text-align:center;margin-top:36px;font-size:.74rem;color:#b0bac8}
+/* ══════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+══════════════════════════════════════════ */
+
+/* Tablet: 600–900px */
+@media(max-width:900px){
+  .cg2{grid-template-columns:1fr}
+  .kpi-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+  .kpi-grid.cols-2{grid-template-columns:1fr 1fr}
+}
+
+/* Móvil grande: ≤600px */
+@media(max-width:600px){
+  .topbar{padding:10px 14px}
+  .brand-name{font-size:.9rem}
+  .last-upd{display:none}
+  .tabs-bar{padding:0 8px;top:54px}
+  .tab-btn{padding:10px 12px;font-size:.8rem;gap:5px}
+  .tab-btn svg{width:13px;height:13px}
+  .main{padding:14px 12px 40px}
+  .sec-header h2{font-size:1.15rem}
+  .kpi-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi-grid.cols-2{grid-template-columns:1fr}
+  .kpi-card{padding:14px;gap:10px}
+  .kpi-icon{width:38px;height:38px;border-radius:10px}
+  .kpi-icon svg{width:19px;height:19px}
+  .kpi-value{font-size:1.45rem}
+  .kpi-value.md{font-size:1.15rem}
+  .kpi-value.sm{font-size:1rem}
+  .kpi-badge{font-size:.62rem;padding:2px 6px}
+  .kpi-split{padding:14px}
+  .kpi-split-val{font-size:1.15rem}
+  .kpi-split-row{gap:8px}
+  .chart-panel{padding:14px}
+  .cw{height:180px}
+  .cw.tall{height:210px}
+  .ct{font-size:.82rem}
+  .cs{font-size:.68rem}
+}
+
+/* Móvil pequeño: ≤380px */
+@media(max-width:380px){
+  .kpi-grid{grid-template-columns:1fr}
+  .kpi-grid.cols-2{grid-template-columns:1fr}
+  .btn-refresh span{display:none}
+  .kpi-split-row{grid-template-columns:1fr 1fr}
+  .kpi-value{font-size:1.3rem}
+}
 </style>
 </head>
 <body>
@@ -163,7 +219,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
   <div id="s1" class="tab-section active">
     <div class="sec-header">
       <h2>Tarjetas &amp; Recargas</h2>
-      <p>Indicadores de colocación y recarga tarjeta La Guayaca Financiera</p>
+      <p>Indicadores de colocación y recarga Tarjeta La Guayaca Enroll</p>
     </div>
 
     <!-- KPIs fila 1 -->
@@ -173,7 +229,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Tarjetas Entregadas</div>
           <div class="kpi-value" id="k1Cards">—</div>
-          <span class="kpi-badge blue">Activas</span>
+          <span class="kpi-badge blue">Únicas entregadas</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -205,7 +261,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Tarjetas Enroll Recargadas</div>
           <div class="kpi-value" id="k1EnrollRec">—</div>
-          <span class="kpi-badge green">Total Recargas</span>
+          <span class="kpi-badge green">Únicas</span>
         </div>
       </div>
     </section>
@@ -213,7 +269,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     <!-- Gráficas fila 1 -->
     <section class="cg2">
       <div class="chart-panel">
-        <div class="ch"><div class="chl"><div class="dot" style="background:var(--blue)"></div><div><div class="ct">Colocación de Tarjetas por Día</div><div class="cs">Tarjetas Enroll Entregadas</div></div></div></div>
+        <div class="ch"><div class="chl"><div class="dot" style="background:var(--blue)"></div><div><div class="ct">Colocación de Tarjetas por Día</div><div class="cs">Tarjetas únicas — Venta</div></div></div></div>
         <div class="cw"><canvas id="cCards"></canvas></div>
       </div>
       <div class="chart-panel">
@@ -237,7 +293,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     <!-- Gráfica troncal -->
     <section class="cg1">
       <div class="chart-panel">
-        <div class="ch"><div class="chl"><div class="dot" style="background:var(--red)"></div><div><div class="ct">Recargas por Troncal</div><div class="cs">Total transacciones por troncal</div></div></div></div>
+        <div class="ch"><div class="chl"><div class="dot" style="background:var(--red)"></div><div><div class="ct">Recargas por Troncal</div><div class="cs">Total transacciones por troncal — columna A</div></div></div></div>
         <div class="cw tall"><canvas id="cTroncal"></canvas></div>
       </div>
     </section>
@@ -249,7 +305,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
   <div id="s2" class="tab-section">
     <div class="sec-header">
       <h2>Transaccionalidad y Usos</h2>
-      <p>Indicadores Generales de uso de tarjeta La Guayaca</p>
+      <p>Indicadores Generales  Uso tarjeta La Guayaca</p>
     </div>
 
     <!-- KPIs fila 1: tarjetas -->
@@ -259,7 +315,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Tarjetas Utilizadas en el Periodo</div>
           <div class="kpi-value" id="k2TarjUtiliz">—</div>
-          <span class="kpi-badge blue">Únicas</span>
+          <span class="kpi-badge blue">Tarjetas Únicas</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -267,7 +323,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Total Usos</div>
           <div class="kpi-value" id="k2TotalUsos">—</div>
-          <span class="kpi-badge teal">Trx Pasajes</span>
+          <span class="kpi-badge teal">Registros Uso</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -275,37 +331,37 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Total Consumo Pasajes</div>
           <div class="kpi-value md" id="k2Consumo">—</div>
-          <span class="kpi-badge gold">Suma · Monetarios</span>
+          <span class="kpi-badge gold">Monetario</span>
         </div>
       </div>
       <div class="kpi-card" style="flex-direction:column;align-items:flex-start;gap:12px;">
-        <div style="display:flex;align-items:center;gap:10px;width:100%">
+        <div style="display:flex;align-items:center;gap:10px;width:100%;flex-wrap:wrap">
           <div class="kpi-icon pur"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pur)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
           <div>
-            <div class="kpi-label">Rango Promedio de Usos x dias</div>
+            <div class="kpi-label">Rango Promedio de Usos</div>
             <div class="kpi-value sm" id="k2Promedio">—</div>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%">
-          <div class="prob-bucket" id="pb1" style="background:#e8f0fe;border-radius:8px;padding:8px 10px;text-align:center">
-            <div class="prob-val" id="pbv1" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--blue)">—</div>
-            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">1 día</div>
-            <div class="prob-pct" id="pbp1" style="font-size:.7rem;font-weight:700;color:var(--blue)">—%</div>
+        <div class="prob-grid">
+          <div class="prob-bucket" style="background:#e8f0fe">
+            <div class="prob-val" id="pbv1" style="color:var(--blue)">—</div>
+            <div class="prob-lbl">1 día</div>
+            <div class="prob-pct" id="pbp1" style="color:var(--blue)">—%</div>
           </div>
-          <div class="prob-bucket" id="pb2" style="background:#e0faf7;border-radius:8px;padding:8px 10px;text-align:center">
-            <div class="prob-val" id="pbv2" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--teal)">—</div>
-            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">Cada 2 días</div>
-            <div class="prob-pct" id="pbp2" style="font-size:.7rem;font-weight:700;color:var(--teal)">—%</div>
+          <div class="prob-bucket" style="background:#e0faf7">
+            <div class="prob-val" id="pbv2" style="color:var(--teal)">—</div>
+            <div class="prob-lbl">Cada 2 días</div>
+            <div class="prob-pct" id="pbp2" style="color:var(--teal)">—%</div>
           </div>
-          <div class="prob-bucket" id="pb3" style="background:#fef6e4;border-radius:8px;padding:8px 10px;text-align:center">
-            <div class="prob-val" id="pbv3" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gold)">—</div>
-            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">Cada 3 días</div>
-            <div class="prob-pct" id="pbp3" style="font-size:.7rem;font-weight:700;color:var(--gold)">—%</div>
+          <div class="prob-bucket" style="background:#fef6e4">
+            <div class="prob-val" id="pbv3" style="color:var(--gold)">—</div>
+            <div class="prob-lbl">Cada 3 días</div>
+            <div class="prob-pct" id="pbp3" style="color:var(--gold)">—%</div>
           </div>
-          <div class="prob-bucket" id="pb4" style="background:#ffe4ea;border-radius:8px;padding:8px 10px;text-align:center">
-            <div class="prob-val" id="pbv4" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--red)">—</div>
-            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">Más de 3 días</div>
-            <div class="prob-pct" id="pbp4" style="font-size:.7rem;font-weight:700;color:var(--red)">—%</div>
+          <div class="prob-bucket" style="background:#ffe4ea">
+            <div class="prob-val" id="pbv4" style="color:var(--red)">—</div>
+            <div class="prob-lbl">+3 días</div>
+            <div class="prob-pct" id="pbp4" style="color:var(--red)">—%</div>
           </div>
         </div>
       </div>
@@ -364,7 +420,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     </section>
   </div><!-- /s2 -->
 
-  <div class="footer">CardFlow Analytics by STG-2026</div>
+  <div class="footer">CardFlow Analytics · STG 2026</div>
 </main>
 
 <script>
@@ -399,10 +455,10 @@ document.addEventListener("DOMContentLoaded", () => { initCharts(); loadData(); 
 async function refreshAll() {
   const btn = document.getElementById("btnRefresh");
   btn.classList.add("loading");
-  showBanner("info","⏳ Estamos Procesando tu solicitud…");
+  showBanner("info","⏳ Estamos procesando tu solicitud");
   try {
     await apiFetch("updateSheet");
-    showBanner("info","✅ Cargando métricas y analítica…");
+    showBanner("info","✅ Cargando métricas y analítica");
     await loadData();
     showBanner("success","🎉 Datos actualizados correctamente.");
   } catch(err) {
