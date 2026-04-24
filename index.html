@@ -278,12 +278,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
           <span class="kpi-badge gold">Suma · col G</span>
         </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-icon pur"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-        <div class="kpi-info">
-          <div class="kpi-label">Rango Promedio de Usos</div>
-          <div class="kpi-value md" id="k2Promedio">—</div>
-          <span class="kpi-badge pur">Días entre 1er y último uso</span>
+      <div class="kpi-card" style="flex-direction:column;align-items:flex-start;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;width:100%">
+          <div class="kpi-icon pur"><svg viewBox="0 0 24 24" fill="none" stroke="var(--pur)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="kpi-label">Rango Promedio de Usos</div>
+            <div class="kpi-value sm" id="k2Promedio">—</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%">
+          <div class="prob-bucket" id="pb1" style="background:#e8f0fe;border-radius:8px;padding:8px 10px;text-align:center">
+            <div class="prob-val" id="pbv1" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--blue)">—</div>
+            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">1 día</div>
+            <div class="prob-pct" id="pbp1" style="font-size:.7rem;font-weight:700;color:var(--blue)">—%</div>
+          </div>
+          <div class="prob-bucket" id="pb2" style="background:#e0faf7;border-radius:8px;padding:8px 10px;text-align:center">
+            <div class="prob-val" id="pbv2" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--teal)">—</div>
+            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">Cada 2 días</div>
+            <div class="prob-pct" id="pbp2" style="font-size:.7rem;font-weight:700;color:var(--teal)">—%</div>
+          </div>
+          <div class="prob-bucket" id="pb3" style="background:#fef6e4;border-radius:8px;padding:8px 10px;text-align:center">
+            <div class="prob-val" id="pbv3" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--gold)">—</div>
+            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">Cada 3 días</div>
+            <div class="prob-pct" id="pbp3" style="font-size:.7rem;font-weight:700;color:var(--gold)">—%</div>
+          </div>
+          <div class="prob-bucket" id="pb4" style="background:#ffe4ea;border-radius:8px;padding:8px 10px;text-align:center">
+            <div class="prob-val" id="pbv4" style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:var(--red)">—</div>
+            <div class="prob-lbl" style="font-size:.65rem;font-weight:600;color:var(--txt-2);margin-top:2px">Más de 3 días</div>
+            <div class="prob-pct" id="pbp4" style="font-size:.7rem;font-weight:700;color:var(--red)">—%</div>
+          </div>
         </div>
       </div>
     </section>
@@ -348,7 +371,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
 /* ══════════════════════════════════════════════════════════
    ▶  CONFIGURACIÓN — EDITAR SOLO ESTA LÍNEA
 ══════════════════════════════════════════════════════════ */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIKqTAXS6ca-39Ed4HWKtgKU20_RyWmtrKzX5Wv8dn0fdQszaag640JUdzRj7t78lJCQ/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYONrJW5o5FKNeCebSwpoSJ2Q8VmDit4mm4fnncZCi7b7AeTJlKX1TsLS3k-aT5NNXww/exec";
 
 /* ══════════════════════════════════════════════════════════
    ESTADO
@@ -444,7 +467,15 @@ function renderS2(d) {
   animNum("k2TarjUtiliz", d.tarjetasUtilizadas || 0);
   animNum("k2TotalUsos",  d.totalUsos          || 0);
   animNum("k2Consumo",    d.totalConsumo       || 0, true);
-  setText("k2Promedio",   (d.rangoPromedio||0) === 1 ? "1 día" : (d.rangoPromedio||0).toFixed(1) + " días");
+  // Rango promedio de usos — bucket dominante + detalle 4 rangos
+  setText("k2Promedio", d.rangoPromedio || "—");
+  const prob = d.probabilidadUso || [];
+  const bucketIds = ["1 día","cada 2 días","cada 3 días","más de 3 días"];
+  bucketIds.forEach((rango, i) => {
+    const b = prob.find(p => p.rango === rango) || { count: 0, pct: 0 };
+    setText("pbv" + (i+1), b.count.toLocaleString("es-EC"));
+    setText("pbp" + (i+1), b.pct + "%");
+  });
   animNum("k2Cerrada",    d.montoCerrada       || 0, true);
   animNum("k2Abierta",    d.montoAbierta       || 0, true);
   animNum("k2Enroll",     d.tarjetasEnroll     || 0);
