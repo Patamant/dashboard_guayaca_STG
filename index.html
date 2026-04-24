@@ -163,7 +163,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
   <div id="s1" class="tab-section active">
     <div class="sec-header">
       <h2>Tarjetas &amp; Recargas</h2>
-      <p>Indicadores de colocación y recarga Tarjeta La Guayaca Financiera Enroll</p>
+      <p>Indicadores de colocación y recarga desde la hoja DATA</p>
     </div>
 
     <!-- KPIs fila 1 -->
@@ -173,7 +173,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Tarjetas Entregadas</div>
           <div class="kpi-value" id="k1Cards">—</div>
-          <span class="kpi-badge blue">Únicas </span>
+          <span class="kpi-badge blue">Únicas · Venta</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -189,7 +189,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Monto Total Recargas</div>
           <div class="kpi-value md" id="k1Monto">—</div>
-          <span class="kpi-badge gold">Suma Monetario</span>
+          <span class="kpi-badge gold">Suma · Campo J</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -200,12 +200,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
           <span class="kpi-badge pur" id="k1ModaBadge">Valor más frecuente</span>
         </div>
       </div>
+      <div class="kpi-card">
+        <div class="kpi-icon green"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="kpi-info">
+          <div class="kpi-label">Tarjetas Enroll Recargadas</div>
+          <div class="kpi-value" id="k1EnrollRec">—</div>
+          <span class="kpi-badge green">Venta + Recarga · Únicas</span>
+        </div>
+      </div>
     </section>
 
     <!-- Gráficas fila 1 -->
     <section class="cg2">
       <div class="chart-panel">
-        <div class="ch"><div class="chl"><div class="dot" style="background:var(--blue)"></div><div><div class="ct">Colocación de Tarjetas por Día</div><div class="cs">Tarjetas únicas — Enroll</div></div></div></div>
+        <div class="ch"><div class="chl"><div class="dot" style="background:var(--blue)"></div><div><div class="ct">Colocación de Tarjetas por Día</div><div class="cs">Tarjetas únicas — Venta</div></div></div></div>
         <div class="cw"><canvas id="cCards"></canvas></div>
       </div>
       <div class="chart-panel">
@@ -229,7 +237,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     <!-- Gráfica troncal -->
     <section class="cg1">
       <div class="chart-panel">
-        <div class="ch"><div class="chl"><div class="dot" style="background:var(--red)"></div><div><div class="ct">Recargas por Troncal</div><div class="cs">Total transacciones por troncal</div></div></div></div>
+        <div class="ch"><div class="chl"><div class="dot" style="background:var(--red)"></div><div><div class="ct">Recargas por Troncal</div><div class="cs">Total transacciones por troncal — columna A</div></div></div></div>
         <div class="cw tall"><canvas id="cTroncal"></canvas></div>
       </div>
     </section>
@@ -251,7 +259,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Tarjetas Utilizadas en el Periodo</div>
           <div class="kpi-value" id="k2TarjUtiliz">—</div>
-          <span class="kpi-badge blue">Únicas</span>
+          <span class="kpi-badge blue">Únicas · Hoja USOS col A</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -259,7 +267,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Total Usos</div>
           <div class="kpi-value" id="k2TotalUsos">—</div>
-          <span class="kpi-badge teal">Registros</span>
+          <span class="kpi-badge teal">Registros col A</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -267,7 +275,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Total Consumo Pasajes</div>
           <div class="kpi-value md" id="k2Consumo">—</div>
-          <span class="kpi-badge gold">Suma</span>
+          <span class="kpi-badge gold">Suma · col G</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -333,14 +341,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     </section>
   </div><!-- /s2 -->
 
-  <div class="footer">CardFlow Analytics by STG</div>
+  <div class="footer">CardFlow Analytics · Google Sheets + Chart.js</div>
 </main>
 
 <script>
 /* ══════════════════════════════════════════════════════════
    ▶  CONFIGURACIÓN — EDITAR SOLO ESTA LÍNEA
 ══════════════════════════════════════════════════════════ */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQnnDtpsyBPSbqINO0zrKUiuh3WD0_YGHpvHUSYgff6B3DqZAVulwQfJ9taEm3okE9Dg/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIKqTAXS6ca-39Ed4HWKtgKU20_RyWmtrKzX5Wv8dn0fdQszaag640JUdzRj7t78lJCQ/exec";
 
 /* ══════════════════════════════════════════════════════════
    ESTADO
@@ -368,10 +376,10 @@ document.addEventListener("DOMContentLoaded", () => { initCharts(); loadData(); 
 async function refreshAll() {
   const btn = document.getElementById("btnRefresh");
   btn.classList.add("loading");
-  showBanner("info","⏳ Estamos procesando tu solicitud…");
+  showBanner("info","⏳ Actualizando columnas en Google Sheets…");
   try {
     await apiFetch("updateSheet");
-    showBanner("info","✅ Cargando métricas…");
+    showBanner("info","✅ Columnas actualizadas. Cargando métricas…");
     await loadData();
     showBanner("success","🎉 Datos actualizados correctamente.");
   } catch(err) {
@@ -416,6 +424,7 @@ function renderS1(d) {
   animNum("k1Moda",  d.modaMonto         || 0, true);
   const b = document.getElementById("k1ModaBadge");
   if (b && d.modaFrecuencia) b.textContent = `Repite ${d.modaFrecuencia} veces`;
+  animNum("k1EnrollRec", d.tarjetasEnrollRecarg || 0);
 
   // Charts S1
   setLine(cCards,    (d.cardsByDay   ||[]).map(r=>fmtD(r.date)), (d.cardsByDay   ||[]).map(r=>r.count));
