@@ -163,7 +163,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
   <div id="s1" class="tab-section active">
     <div class="sec-header">
       <h2>Tarjetas &amp; Recargas</h2>
-      <p>Indicadores de colocación y recarga desde la hoja DATA</p>
+      <p>Indicadores de colocación y recarga Tarjeta La Guayaca Financiera Enroll</p>
     </div>
 
     <!-- KPIs fila 1 -->
@@ -171,9 +171,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
       <div class="kpi-card">
         <div class="kpi-icon blue"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
         <div class="kpi-info">
-          <div class="kpi-label">Tarjetas Entregadas</div>
+          <div class="kpi-label">Tarjetas Entregadas Enroll</div>
           <div class="kpi-value" id="k1Cards">—</div>
-          <span class="kpi-badge blue">Únicas · Venta</span>
+          <span class="kpi-badge blue">Únicas · Activadas</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -189,7 +189,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Monto Total Recargas</div>
           <div class="kpi-value md" id="k1Monto">—</div>
-          <span class="kpi-badge gold">Suma · Campo J</span>
+          <span class="kpi-badge gold">Suma · Monetarios</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -205,7 +205,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     <!-- Gráficas fila 1 -->
     <section class="cg2">
       <div class="chart-panel">
-        <div class="ch"><div class="chl"><div class="dot" style="background:var(--blue)"></div><div><div class="ct">Colocación de Tarjetas por Día</div><div class="cs">Tarjetas únicas — Venta</div></div></div></div>
+        <div class="ch"><div class="chl"><div class="dot" style="background:var(--blue)"></div><div><div class="ct">Colocación de Tarjetas por Día</div><div class="cs">Tarjetas entregadas — Enroll</div></div></div></div>
         <div class="cw"><canvas id="cCards"></canvas></div>
       </div>
       <div class="chart-panel">
@@ -229,7 +229,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     <!-- Gráfica troncal -->
     <section class="cg1">
       <div class="chart-panel">
-        <div class="ch"><div class="chl"><div class="dot" style="background:var(--red)"></div><div><div class="ct">Recargas por Troncal</div><div class="cs">Total transacciones por troncal — columna A</div></div></div></div>
+        <div class="ch"><div class="chl"><div class="dot" style="background:var(--red)"></div><div><div class="ct">Recargas por Troncal</div><div class="cs">Total transacciones por troncal</div></div></div></div>
         <div class="cw tall"><canvas id="cTroncal"></canvas></div>
       </div>
     </section>
@@ -251,7 +251,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Tarjetas Utilizadas en el Periodo</div>
           <div class="kpi-value" id="k2TarjUtiliz">—</div>
-          <span class="kpi-badge blue">Únicas · Hoja USOS col A</span>
+          <span class="kpi-badge blue">Total Únicas</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -259,7 +259,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Total Usos</div>
           <div class="kpi-value" id="k2TotalUsos">—</div>
-          <span class="kpi-badge teal">Registros col A</span>
+          <span class="kpi-badge teal">Registros del periodo</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -267,7 +267,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
         <div class="kpi-info">
           <div class="kpi-label">Total Consumo Pasajes</div>
           <div class="kpi-value md" id="k2Consumo">—</div>
-          <span class="kpi-badge gold">Suma · col G</span>
+          <span class="kpi-badge gold">Monetarios</span>
         </div>
       </div>
       <div class="kpi-card">
@@ -333,7 +333,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt-1);mi
     </section>
   </div><!-- /s2 -->
 
-  <div class="footer">CardFlow Analytics · Google Sheets + Chart.js</div>
+  <div class="footer">CardFlow Analytics by STG·/div>
 </main>
 
 <script>
@@ -368,7 +368,7 @@ document.addEventListener("DOMContentLoaded", () => { initCharts(); loadData(); 
 async function refreshAll() {
   const btn = document.getElementById("btnRefresh");
   btn.classList.add("loading");
-  showBanner("info","⏳ Actualizando columnas en Google Sheets…");
+  showBanner("info","⏳ Estamos procesando tu solicitud…");
   try {
     await apiFetch("updateSheet");
     showBanner("info","✅ Columnas actualizadas. Cargando métricas…");
